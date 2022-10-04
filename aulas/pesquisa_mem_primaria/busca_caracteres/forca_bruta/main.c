@@ -1,30 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-void compara( char *texto, int tam_t, char *padrao, int tam_p) {
-    int i,j;
-    for ( i = 0; i <= (tam_t - tam_p); i++ ) {
-        j = 0;
-        while (j < tam_p && texto[i + j] == padrao[j]) {
-            j++;
-        }
-        if ( j == tam_p ) {
-            printf("encontrou\n");
-        }
-    }
-}
+// tamanho M é do texto, N é do padrão
+#define N 10
+#define M 3
+// N tem que ser maior que M, portanto ( n > m )
 
 int main() {
 
-    int tamanho_t = 16, tamanho_p = 4;
-    char text[tamanho_t];
-    char pad[tamanho_p];
-    scanf("%[^\n]", text);
-    setbuf(stdin, NULL);
-    scanf("%[^\n]", pad);
-    setbuf(stdin, NULL);
-    printf("leu\n");
-    compara(text, tamanho_t, pad, tamanho_p);
+    char texto[N];  //texto em que o padrao vai ser comparado
+    char padrao[M]; //padrao para buscar dentro do texto, quantas vezes ele ocorre
 
     return 0;
 }
