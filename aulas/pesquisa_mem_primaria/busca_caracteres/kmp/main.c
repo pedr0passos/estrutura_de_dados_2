@@ -1,20 +1,27 @@
 #include <stdio.h>
 #include <string.h>
 
-void kmp ( char text, char pattern, int m, int n) {
-    if ( pattern == '\0' || n == 0 ) {
-        printf("O Padrao tem tamanho 0\n");
+#define M 6
+
+void p_processamento ( char p[M] ) {
+    int i = 1, j = 1, aux[0] = j;
+    for (i = 1; i < (M-1); i++){
+        while (j > -1 && p[j+1] > p[i]) {
+            j = aux[j];
+            if(p[i] == p[j]) {
+                j++;
+            }
+            aux[i] = j;
+        }
     }
-    if (text == '\0' || n > m ) {
-        printf("Padrao nao encontrado\n");
-    }
-    
+}
+
+void kmp ( ) {
+
 }
 
 int main () {
-    
-    char text = "ABCABAABCABAC";
-    char pattern = "CAB";
+
 
     return 0;
 }
