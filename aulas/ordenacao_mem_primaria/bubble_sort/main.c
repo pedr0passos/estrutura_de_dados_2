@@ -12,26 +12,27 @@ void ord(int vetor[N]) {
     int final = (N - 1), temp, quant_trocas = 1;
 
     pl();
-    // while que vai fazer o for rodar quantas vezes for necessário para a ordenação do vetor...
-    while (quant_trocas != 0 ) {
-        //setando quant_trocas = 0, pois caso não exista mais nenhuma troca a ser feita, significa que o vetor foi ordenado OU já estava ordenado previamente...
-        quant_trocas = 0;
-        // for fazendo as trocas da direita do vetor até o inicio, portanto tem esse caminho: [<-][<-][<-][<-][<-][<-]...
-        for ( int i = final; i >= 1; i-- ) {
 
-            if (vetor[i-1] >= vetor[i]) {       // compara se o vetor da posição (i-1) é maior ou igual ao vetor em que o (i) está posicionado...
-        
-                // bloco de troca
-                temp = vetor[i-1];
-                vetor[i-1] = vetor[i];
-                vetor[i] = temp;
-                quant_trocas++;
-        
+    // for externo: começa do final, e vai decrementando até chegar em 1 
+    for (int i = final; i >= 1; i-- ) {
+
+        // for interno: começa de 0 e vai acrescentando até chegar no i, pois a cada vez que vc chama esse for o maior valor já é colocado no seu valor correto
+        for (int j = 0; j < i; j++ ) {
+
+            // comparador:
+            if (vetor[j] > vetor[j+1]) {
+
+                // bloco de troca dos valores
+                temp = vetor[j];
+                vetor[j] = vetor[j+1];
+                vetor[j+1] = temp;
+
             }
-        
+
         }
-    }    
-    // a função faz o for ser repetido até o vetor ser ordenado, quando ele for ordenado não haverá mais comparações a serem verdadeiras, portanto irá sair do while.
+
+    }
+
 }
 
 int main () {
