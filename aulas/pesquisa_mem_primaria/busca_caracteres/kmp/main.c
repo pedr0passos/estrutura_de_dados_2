@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#define M 8
+#define M 6
 #define N 20
 
-int *p_processamento ( char *p[M] ) {
-    int i = 1, j = 1, aux[M];
+int *p_processamento ( char p[M] ) {
+    int i = 1, j = -1;
+    int *aux = malloc(sizeof(int)*M);
     aux[0] = j;
     for (i = 1; i < M; i++){
         while (j > -1 && p[j+1] != p[i]) {
@@ -20,31 +21,30 @@ int *p_processamento ( char *p[M] ) {
 }
 
 int kmp ( char t[N], char p[M] ) {
-    int *aux = p_processamento(p[M]);
+    int i;
+    int *temp = p_processamento(p);
     int k = -1;
-    for ( int i = 0; i < N; i++ ) {
+    for ( i = 0; i < N; i++ ) {
         while ( k > -1 && p[k+1] != t[i] ) {
-            k = aux[k];
+            k = temp[k];
         }
         if (t[i] == p[k+1]) {
             k++;
         } 
         if (k == (M-1)) {
-            return i-k;
+            free(temp);
+            return (i-k);
         }
     }
-
+    free(temp);
+    return -1;
 }
 
 int main () {
+    char texto[N] = {'a','b','a','c','a','a','c','c','a','b','a','c','a','b','a','b','a','a','b','b'};
+    char padrao[M] = {'a','b','a','c','a','b'};
 
-    char texto[N] = {};
-    char padrao[M] = {'a','b','c','d','a','b','c','a'};
-    int *auxiliar = malloc(sizeof(int)*M);
-    auxiliar = p_processamento(padrao);
-    for(int i = 0; i < M; i++ ) {
-        printf("%d\t", auxiliar[i]);
-    }
+    printf("%d", kmp(texto, padrao));
 
 
     return 0;
