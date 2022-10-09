@@ -1,25 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef int IndexAmp;
-
-typedef enum {
-    Interno, Externo
-}NodoTipo;
-
-typedef struct PatNodo_str *Arvore;
-
-typedef struct PadNodo_str {
-    NodoTipo nt;
-    union {
-        struct {
-            IndexAmp Index;
-            Arvore Esq, Dir;
-        }U0;
-        int Chave[8];
-    }UU;
-}PatNodo;
-
 typedef struct patricinha {
     int tipo_no;
     int posicao;
