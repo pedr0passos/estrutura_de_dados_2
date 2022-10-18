@@ -1,0 +1,145 @@
+1) Dada a seguinte sequencia de nomes ( chaves ):
+
+   0       1          2        3       4      5       6        7         8
+ jair -> valdir -> carlos -> jorge -> bia -> ana -> zelia -> manoel -> carla
+
+Mostre as sequencias de etapas percorridas para realizar a ordenação desta sequencia: 
+    1 - por selection_sort
+    2 - por insertion_sort
+    3 - por troca
+
+1:
+Selection Sort pega o menor item do vetor, e troca com o item que está na primeira posição do vetor
+
+1° passo: vai percorrer o vetor e pegar a chave com o menor valor, sendo ela c_menor = ana
+2° passo: trocar com o valor da posição v[inicio], sendo que o inicio será sempre incrementado, para não comparar as posições já ordenadas do vetor;
+
+
+   0       1          2        3       4      5       6        7         8
+  ana -> valdir -> carlos -> jorge -> bia -> jair -> zelia -> manoel -> carla
+
+repetindo essa regra até o final temos.
+. valdir < carlos ? false -> menor = carlos;
+. carlos < jorge  ? true  -> menor = carlos;
+. carlos < bia    ? false -> menor = bia;
+. bia < jair      ? true  -> menor = bia;
+. bia < zelia     ? true  -> menor = bia;
+. bia < manoel    ? true  -> menor = bia;
+. bia < carla     ? true  -> menor = bia;
+
+- troca bia com valdir
+
+   0      1        2        3        4        5        6        7         8
+  ana -> bia -> carlos -> jorge -> valdir -> jair -> zelia -> manoel -> carla
+
+. carlos < jorge  ? true  -> menor = carlos;
+. carlos < valdir ? true  -> menor = carlos;
+. carlos < jair   ? true  -> menor = carlos;
+. carlos < zelia  ? true  -> menor = carlos;
+. carlos < manoel ? true  -> menor = carlos;
+. carlos < carla  ? false -> menor = carla;
+
+- troca carla com carlos
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> jorge -> valdir -> jair -> zelia -> manoel -> carlos
+
+. jorge < valdir ? true  -> menor = jorge;
+. jorge < jair   ? false -> menor = jair;
+. jair  < zelia  ? true  -> menor = jair;
+. jair  < manoel ? true  -> menor = jair;
+. jair  < carlos ? false -> menor = carlos;
+
+- troca carlos com o jorge
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> valdir -> jair -> zelia -> manoel -> jorge
+
+. valdir < jair   ? false -> menor = jair;
+. jair   < zelia  ? true  -> menor = jair;
+. jair   < manoel ? true  -> menor = jair;
+. jair   < jorge  ? true  -> menor = jair;
+
+- troca jair com o valdir;
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> valdir -> zelia -> manoel -> jorge
+
+. valdir < zelia  ? true  -> menor = valdir;
+. valdir < manoel ? false -> menor = manoel;
+. manoel < jorge  ? false -> menor = jorge;
+
+- troca jorge com valdir
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> zelia -> manoel -> valdir
+
+. zelia  < manoel ? false -> menor = manoel;
+. manoel < valdir ? true -> menor = manoel;
+
+- troca manoel com a zelia 
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> manoel -> zelia -> valdir
+
+. zelia < valdir ? false -> menor = valdir;
+
+- troca valdir com zelia 
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> manoel -> valdir -> zelia
+
+- vetor ordenado.
+
+2: 
+Por Inserção funcionaria basicamente da seguinte forma:
+
+para i = 1 até n - 1 faça 
+  
+  auxiliar = v[i]
+  j = (i-1)
+
+  enquanto ( j >= 0 ) e ( auxiliar < v[j] ) 
+    v[j+1] = v[j]
+    j--
+  fim_enquanto
+  
+  se (j!=(i-1)) então
+    v[j+1] = auxiliar
+  fim_se
+
+fim_para
+
+   0       1          2        3       4      5       6        7         8
+ jair -> valdir -> carlos -> jorge -> bia -> ana -> zelia -> manoel -> carla
+
+1 laço: i = 1 
+.auxiliar = valdir
+.j = 0
+
+j>=0 e valdir < jair ? false -> nao entra no while
+j!=0 ? false -> não entra no se 
+
+2 laco: i = 2
+
+.auxiliar = carlos
+.j = 1
+
+j>=0 e carlos < valdir ? true -> entra no while 
+  carlos = valdir
+  j-- <-> j = 0
+
+   0       1          2        3       4      5       6        7         8
+ jair -> valdir -> valdir -> jorge -> bia -> ana -> zelia -> manoel -> carla
+
+j>=0 e carlos < jair ? true -> não entra no while 
+  valdir = jair
+
+   0       1          2        3       4      5       6        7         8
+ jair -> jair -> valdir -> jorge -> bia -> ana -> zelia -> manoel -> carla
+
+j!=(i-1) ? true -> entra no se 
+  jair = carlos
+
+   0       1          2        3       4      5       6        7         8
+ carlos -> jair -> valdir -> jorge -> bia -> ana -> zelia -> manoel -> carla
