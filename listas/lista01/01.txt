@@ -143,3 +143,89 @@ j!=(i-1) ? true -> entra no se
 
    0       1          2        3       4      5       6        7         8
  carlos -> jair -> valdir -> jorge -> bia -> ana -> zelia -> manoel -> carla
+
+ 3 laco: i = 3 
+
+ auxiliar = jorge
+ j = 2
+
+ j>=0 e auxiliar < valdir ? true -> entra no while
+  jorge = valdir
+  j = 1
+
+   0       1          2        3       4      5       6        7         8
+ carlos -> jair -> valdir -> valdir -> bia -> ana -> zelia -> manoel -> carla
+
+j != 2 ? true -> entra no se
+  valdir = jorge
+
+   0       1          2        3       4      5       6        7         8
+ carlos -> jair -> jorge -> valdir -> bia -> ana -> zelia -> manoel -> carla
+
+
+2) Depois de ordenada a sequencia do exercício anterior, demonstre as etapas percorridas pela pesquisa binária para encontrar a posição do item cuja chave é jorge
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> manoel -> valdir -> zelia
+   ^                                                                      ^
+  esq                                                                    dir  
+
+1. variaveis esq e dir apontando respectivamente para o começo e final do vetor
+2. calcula o meio do vetor, que seria: (esq+dir)/2, portando meio = 4;
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> manoel -> valdir -> zelia
+   ^                                ^                                     ^
+  esq                              meio                                  dir  
+
+3. verifica se a chave do meio é jorge. ( false )
+4. verifica se a chave buscada é maior ou menor que o meio ( jorge < jair ? ou jorge > jair ? )
+5. como jorge é maior que jair, esq = posicao do meio + 1, ou seja: esq = (meio+1)
+6.
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> manoel -> valdir -> zelia
+                                    ^        ^                            ^
+                                   meio     esq                          dir  
+
+7. o meio é recalculado. meio = 6
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> manoel -> valdir -> zelia
+                                             ^        ^                   ^
+                                            esq      meio                dir  
+                                          
+8. verifica se o meio é a chave encontrada: manoel == jorge ? (false)
+9. verifica se a chave buscada é maior ou menor que o meio: ( jorge < manoel ? ou jorge > manoel ? )
+10. nesse caso, jorge é menor que manoel, portanto dir recebe meio - 1: dir = (meio-1)
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> manoel -> valdir -> zelia
+                                           ^   ^      ^                   
+                                          esq dir    meio     
+
+11. o meio é recalculado, meio = (esq + dir)/2, meio = 5
+
+
+   0      1       2        3        4        5        6        7         8
+  ana -> bia -> carla -> carlos -> jair -> jorge -> manoel -> valdir -> zelia
+                                           ^   ^                        
+                                          esq dir   
+                                             ^
+                                            meio    
+
+12. verifica se meio é igual a chave encontrada, meio == jorge ? (true)
+13. chave encontrada. 
+
+3)Considerando ainda sequencia de elementos do exercicio 1 , faça uma analise comparativa entre e eficiencia da pesquisa sequencial e da pesquisa binaria para este caso.
+
+n = 9, sendo n número de elementos do vetor
+
+número médio de comparações:
+- pesquisa sequencial: (n+1)/2
+- pesquisa binaria...: log 2^n   
+
+O número médio de comparações para esta sequencia em pesquisa sequencial é igual a 5
+O número médio de comparações para esta sequencia em pesquisa binaria é igual a aproximadamente 3
+
+4)
