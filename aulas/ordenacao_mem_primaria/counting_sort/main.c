@@ -32,6 +32,4 @@ void counting_sort(char *vetor, int tamanho) {
             k++;
         }
     }
-
-
 } 
