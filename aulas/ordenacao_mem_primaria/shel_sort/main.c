@@ -9,6 +9,12 @@ int d(int h) {
      return (h = (h-1)/3);
 }
 
+void imprime ( int *vetor ) {
+    for (int i = 0; i < N; i++ ) {
+        printf("%d ", vetor[i]);
+    }
+}
+
 void shellsort(int v[], int n) {
 
     int i, j, h, auxiliar;
@@ -39,14 +45,11 @@ int main () {
 
     // vetor que vai ser ordenado
     int vetor[N] = {23,5,7,1,98,34};
-    for ( int i = 0; i < N; i++ ) {
-            printf("%d ", vetor[i]);
-    }
+    
+    imprime(vetor);
     printf("\n");
     shellsort(vetor, N);
-    for ( int i = 0; i < N; i++ ) {
-            printf("%d ", vetor[i]);
-    }
+    imprime(vetor);
     printf("\n");
 
     return 0;
