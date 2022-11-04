@@ -165,7 +165,7 @@ void shellsort(int v[], int n)
     }
 }
 
-void ordena_lista_1(descritor *lista) {
+/*void ordena_lista_1(descritor *lista) {
     // criacao das variaveis necessárias
     int tamanho, i;
     tamanho = lista->num_elementos;
@@ -179,7 +179,7 @@ void ordena_lista_1(descritor *lista) {
         i++;
     }
 
-    // ordenando o vetor e esvaziando a lista
+    ordenando o vetor e esvaziando a lista
     shellsort(vetor, tamanho);
     esvazia(lista);
 
@@ -189,9 +189,9 @@ void ordena_lista_1(descritor *lista) {
         insere(lista, vetor[i]);
     }
 
-}
+}*/
 
-void ordena_lista_2(descritor *lista) {
+/*void ordena_lista_2(descritor *lista) {
 
     // criacao das variaveis necessárias
     int tamanho, i;
@@ -217,49 +217,84 @@ void ordena_lista_2(descritor *lista) {
         insere(lista, vetor[i]);
     }
 
+} */
+
+void ordena_lista(descritor *lista) {
+
+    int h = 1, i, j, auxiliar_troca;
+    int tamanho = lista->num_elementos;
+    
+    while (h < tamanho)
+    {
+        h = h * 3 + 1;
+    }
+
+    no_lista *p;
+    no_lista *q;
+
+    while (h > 1) {
+        h = (h - 1) / 3;
+        printf("H: %d\n",h);
+        i = 0 ;
+        j = 0 ;
+        p = lista->primeiro;
+
+            printf("While 1\n");     
+
+            do {
+                p = p->proximo;
+                i++;
+            } while ( i < h );
+
+            q = p;  
+
+            printf("While 2\n");
+
+            do {                
+                q = q->anterior;
+                j++;
+            } while ( j < h);                     
+
+            auxiliar_troca = p->informacao;
+
+            while ( p != NULL || auxiliar_troca < q->informacao ) {
+
+                printf("Informacao de p: %d\n", p->informacao); 
+                printf("Informacao de q: %d\n", q->informacao);   
+
+                    p->informacao = q->informacao;
+
+                    printf("Trocou o %d pelo %d\n", p->informacao,q->informacao);
+                    p = p->proximo;
+                    q = q->proximo;                     
+
+            }
+            p->informacao = auxiliar_troca;
+    } 
 }
+
 
 int main()
 {
     setlocale(LC_ALL, "portuguese");
 
     descritor l;
-    descritor l2;
     cria_lista(&l);
-    cria_lista(&l2);
 
     insere(&l, 4);
-    insere(&l, 1);
+    insere(&l, 10);
     insere(&l, 3);
-    insere(&l, 7);
-    insere(&l, 2);
-    insere(&l, 5);
-    insere(&l, 15);
-    insere(&l, 22);
-    insere(&l, 50);
     insere(&l, 6);
+    insere(&l, 8);
+    insere(&l, 1);
+
+
+
     printf("Lista 1: ");
     imprime(&l);
-
-    insere(&l2, 4);
-    insere(&l2, 1);
-    insere(&l2, 3);
-    insere(&l2, 7);
-    insere(&l2, 2);
-    insere(&l2, 5);
-    insere(&l2, 15);
-    insere(&l2, 22);
-    insere(&l2, 50);
-    insere(&l2, 6);
-    printf("Lista 2: ");
-    imprime(&l2);
-
-    ordena_lista_1(&l2);
-    ordena_lista_2(&l);
-    printf("Lista 1 Ordenada: ");
+    ordena_lista(&l);
+    printf("Lista Ordenada: ");
     imprime(&l);
-    printf("Lista 2 Ordenada: ");
-    imprime(&l2);
 
     return 0;
 }

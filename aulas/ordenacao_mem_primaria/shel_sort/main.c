@@ -28,18 +28,42 @@ void shellsort(int v[], int n) {
 
     // laço principal 
     while ( h > 1 ) {
+
         h = d(h); // h = 4
+
         for (i = h; i < n; i++) {
+
             auxiliar = v[i];
             j = i - h;
+
             while ( j >= 0 && auxiliar < v[j] ) {
                 v[j + h] = v[j];
                 j -= h;
             }
+
             v[j+h] = auxiliar;
+
         }
+
+    }
+
+}
+
+void insertion_sort (int v[N]) {
+    int i, j, auxiliar;
+
+    for (int i = 1; i < N; i++) {
+        auxiliar = v[i];
+        j = (i-1);
+
+        while ( (j>=0) && (auxiliar < v[j]) ) {
+            v[j+1] = v[j];
+            j--;
+        }
+        v[j+1] = auxiliar;
     }
 }
+
 
 int main () {
 
