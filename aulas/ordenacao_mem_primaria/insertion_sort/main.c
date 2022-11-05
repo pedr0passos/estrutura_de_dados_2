@@ -1,47 +1,53 @@
 #include <stdio.h>
-#define N 13
+#define N 10
 
-void insertion_sort (int v[N]) {
+void insertion_sort (int *vetor, int tamanho) {
     int i, j, auxiliar;
-
-    for (int i = 1; i < N; i++) {
-        auxiliar = v[i];
-        j = (i-1);
-
-        while ( (j>=0) && (auxiliar < v[j]) ) {
-            v[j+1] = v[j];
+    for ( i = 1; i < tamanho; i++) {
+        auxiliar = vetor[i];
+        j = i - 1;
+        while ( j >= 0 && auxiliar < vetor[j] ) {
+            vetor[j+1] = vetor[j];
             j--;
         }
-        v[j+1] = auxiliar;
+        vetor[j+1] = auxiliar;
     }
 }
 
-void sla ( int v[N] ) {
-    int auxiliar;
-    for ( int i = 0; i < N; i++ ) {
-        for ( int j = i + 1; j < N; j++ ) {
-            if ( v[i] < v[j] ) {
-                auxiliar = v[i];
-                v[i] = v[j];
-                v[j] = v[i];
-                printf("trocou\n");
+void insertion_sort_2(int *vetor, int tamanho) {
+    int i, j, auxiliar;
+    for ( i = 1; i < tamanho; i++) {
+        auxiliar = vetor[i];
+        for ( j = (i-1); j >= 0; j-- ) {
+            if ( auxiliar < vetor[j] ) {
+                vetor[j+1] = vetor[j];
+                vetor[j+1] = auxiliar;
             }
+
         }
+    }
+}
+
+/*
+bub
+insertion
+shel
+selection
+heap
+quick
+*/
+
+void print (int *vetor) {
+    for ( int i = 0; i < N; i++ ) {
+        printf("%d ", vetor[i]);
     }
 }
 
 int main () {
 
-    // 23 90 68 1 55 -> 23 90 
-
-    int vetor[N] = {90,23,68,1,55,21,6,2,9,8,77,90,11};
-    int vetor2[N] = {90,23,68,1,55};
-    insertion_sort(vetor);
-    printf("\n-------------\n");
-
-    for ( int i = 0; i < N; i++ ) {
-        printf("%d ", vetor[i]);
-    }
+    int vetor[N] = {5,9,2,10,4,8,7,6,1,3};
+    insertion_sort_2(vetor, N);
+    print(vetor);
 
     return 0;
 }
