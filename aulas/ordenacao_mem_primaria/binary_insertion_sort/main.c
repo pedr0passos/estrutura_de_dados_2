@@ -47,21 +47,22 @@ void b_insertionsort(int *v, int n) {
 
 /*
 
-for ( i = 1; i < tam; i++) {
+
+
+for () {
     aux = v[i];
-    dir = i;
-    esq = 0;
-    while ( esq < dir ) {
-        meio = (dir + esq )/2;
+    esquerda = 0;
+    direita = i;
+    while ( esquerda < direita ) {
         if ( v[meio] <= aux ) {
-            esq = meio + 1;
+            esquerda = meio + 1;
         } else {
-            dir = meio;
+            direita = meio;
         }
     }
-    for ( j = i; i > esq; j-- ) {
+    for ( j = i; j > esquerda; j-- ) {
         v[j] = v[j-1];
     }
-    v[dir] = aux;
+    v[direita] = aux;
 }
 */

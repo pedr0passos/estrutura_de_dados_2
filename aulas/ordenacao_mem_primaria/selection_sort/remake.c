@@ -31,10 +31,11 @@ void selection_sort(int *v, int n) {
                 menor = j;
             }
         }
-        aux = v[menor];
-        v[menor] = v[i];
-        v[i] = aux;
-
+        if ( i != j ) {
+            aux = v[menor];
+            v[menor] = v[i];
+            v[i] = aux;
+        }
     }
 
     

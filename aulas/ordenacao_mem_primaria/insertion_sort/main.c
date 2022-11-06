@@ -10,7 +10,8 @@ void insertion_sort (int *vetor, int tamanho) {
             vetor[j+1] = vetor[j];
             j--;
         }
-        vetor[j+1] = auxiliar;
+        if ( j != i-1 )
+            vetor[j+1] = auxiliar;
     }
 }
 
@@ -46,7 +47,7 @@ void print (int *vetor) {
 int main () {
 
     int vetor[N] = {5,9,2,10,4,8,7,6,1,3};
-    insertion_sort_2(vetor, N);
+    insertion_sort(vetor, N);
     print(vetor);
 
     return 0;

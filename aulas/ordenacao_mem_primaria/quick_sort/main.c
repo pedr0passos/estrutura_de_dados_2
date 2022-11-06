@@ -3,14 +3,14 @@
 
 void part(int *v, int esquerda, int direita, int *i, int *j) {
     int pivo, auxiliar;
+    
     *i = esquerda;
     *j = direita;
+
     pivo = v[(esquerda + direita)/2];
 
     while ( *i <= *j ) {
-        while (v[*i] < pivo && *i < direita )
-        {
-            /* code */
+        while (v[*i] < pivo && *i < direita ) {            
             (*i)++;
         }
         while (v[*j] > pivo && *j > esquerda ) {

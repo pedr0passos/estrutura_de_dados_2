@@ -1,15 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#define max 10
 
-int comparador (const void *a, const void *b) {
-    return ( *(int*)a - *(int*)b );
-}
+void radix (int *vetor, int n );
 
 int main () {
 
     int vetor[10] = {14,6546,234,8,3456,234,7,8,3,534};
-    qsort(vetor, 10, sizeof(int), comparador);
+    radix(vetor, max);
     for ( int i = 0; i < 10; i++ ) {
         printf("%d -", vetor[i]);
     }
@@ -17,3 +14,10 @@ int main () {
     return 0;
 }
 
+void radix (int *vetor, int n ) {
+    int i, j, contador[10] = {0};
+    for ( int i = 0; i < 10; i++ ) {
+        printf("%d -", contador[i]);
+    }
+
+}

@@ -73,7 +73,7 @@ void imprime(descritor *l)
         {
 
             printf("%d", p->informacao);
-            printf(" - ");
+            printf(" ");
         }
         printf("\n");
     }
@@ -129,153 +129,28 @@ void remove_elemento(descritor *l, int v)
     free(p);
 }
 
-int d(int h)
-{
-    return (h = (h - 1) / 3);
-}
-
-void shellsort(int v[], int n)
-{
-
-    int i, j, h, auxiliar;
-
-    h = 1; // iniciando o h como 1, o h é a quantidade de casas que se deve pular para fazer as comparações
-
-    // laço que calcula o valor de h
-    while (h < n)
-    {
-        h = h * 3 + 1;
-    }
-
-    // laço principal
-    while (h > 1)
-    {
-        h = d(h); // h = 4
-        for (i = h; i < n; i++)
-        {
-            auxiliar = v[i];
-            j = i - h;
-            while (j >= 0 && auxiliar < v[j])
-            {
-                v[j + h] = v[j];
-                j -= h;
-            }
-            v[j + h] = auxiliar;
-        }
-    }
-}
-
-/*void ordena_lista_1(descritor *lista) {
-    // criacao das variaveis necessárias
-    int tamanho, i;
-    tamanho = lista->num_elementos;
-    i = 0;
-    int vetor[tamanho];
-
-    no_lista *p;
-    // colocando as informações da lista, dentro do vetor
-    for ( p = lista->primeiro; p != NULL; p = p->proximo) {
-        vetor[i] = p->informacao;
-        i++;
-    }
-
-    ordenando o vetor e esvaziando a lista
-    shellsort(vetor, tamanho);
-    esvazia(lista);
-
-    // colocando os valores do vetor dentro da nova lista
-    for (int i = ((tamanho)-1); i >= 0; i--)
-    {
-        insere(lista, vetor[i]);
-    }
-
-}*/
-
-/*void ordena_lista_2(descritor *lista) {
-
-    // criacao das variaveis necessárias
-    int tamanho, i;
-    tamanho = lista->num_elementos;
-    i = 0;
-    int vetor[tamanho];
-
-    // colocando as informações da lista, dentro do vetor
-    no_lista *p = lista->primeiro;
-    while (p != NULL) {
-        no_lista *auxiliar = p;
-        vetor[i] = auxiliar->informacao;
-        p = auxiliar->proximo;
-        remove_elemento(lista, auxiliar->informacao);
-        i++;
-    }
-
-    // ordenando o vetor e criando a lista nova que será retornada no final da função
-    shellsort(vetor, tamanho);
-
-    // colocando os valores do vetor dentro da nova lista
-    for (int i = ((tamanho)-1); i >= 0; i--) {
-        insere(lista, vetor[i]);
-    }
-
-} */
-
 void ordena_lista(descritor *lista) {
 
-    int h = 1, i, j, auxiliar_troca;
-    int tamanho = lista->num_elementos;
-    
-    while (h < tamanho)
-    {
-        h = h * 3 + 1;
+    int auxiliar;
+    no_lista *p, *j, *menor;
+
+    for ( p = lista->primeiro; p != NULL; p = p->proximo ) {
+        menor = p;
+        for ( j = p->proximo; j != NULL; j = j->proximo ) {
+            if ( j->informacao < menor->informacao ) {
+                menor = j;
+            }
+        }
+        if ( menor != p ) {
+            auxiliar = menor->informacao;
+            menor->informacao = p->informacao;
+            p->informacao = auxiliar;
+        }
     }
 
-    no_lista *p;
-    no_lista *q;
+} 
 
-    while (h > 1) {
-        h = (h - 1) / 3;
-        printf("H: %d\n",h);
-        i = 0 ;
-        j = 0 ;
-        p = lista->primeiro;
-
-            printf("While 1\n");     
-
-            do {
-                p = p->proximo;
-                i++;
-            } while ( i < h );
-
-            q = p;  
-
-            printf("While 2\n");
-
-            do {                
-                q = q->anterior;
-                j++;
-            } while ( j < h);                     
-
-            auxiliar_troca = p->informacao;
-
-            while ( p != NULL || auxiliar_troca < q->informacao ) {
-
-                printf("Informacao de p: %d\n", p->informacao); 
-                printf("Informacao de q: %d\n", q->informacao);   
-
-                    p->informacao = q->informacao;
-
-                    printf("Trocou o %d pelo %d\n", p->informacao,q->informacao);
-                    p = p->proximo;
-                    q = q->proximo;                     
-
-            }
-            p->informacao = auxiliar_troca;
-    } 
-}
-
-
-int main()
-{
+int main() {
     setlocale(LC_ALL, "portuguese");
 
     descritor l;
@@ -290,7 +165,7 @@ int main()
 
 
 
-    printf("Lista 1: ");
+    printf("Lista: ");
     imprime(&l);
     ordena_lista(&l);
     printf("Lista Ordenada: ");
