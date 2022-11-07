@@ -1,12 +1,12 @@
 #include <stdio.h>
-#define Max 35
+#define Max 5
 
 void particao(int *v, int esquerda, int direita, int *i, int*j);
 void quicksort(int *v, int esquerda, int direita);
 
 void main () {
 
-    int vetor[Max] = {5,1,8,9,34,2,0,3,3,6,-98,-1,10,67,12,11,41,22,98,55,120,117,51,-180,-62,34,29,1,1,3,7,-9,750,902,-100};
+    int vetor[Max] = {5,1,8,9,34};
     quicksort(vetor, 0, Max-1);
     for (int i = 0; i < Max; i++ ) {
         printf("%d ", vetor[i]);
@@ -29,7 +29,7 @@ void quicksort(int *v, int esquerda, int direita) {
 void particao(int *v, int esquerda, int direita, int *i, int*j) {
     int aux, pivo;
 
-    pivo = v[(esquerda + direita)/2];
+    pivo = v[direita];
     
     *i = esquerda;
     *j = direita;

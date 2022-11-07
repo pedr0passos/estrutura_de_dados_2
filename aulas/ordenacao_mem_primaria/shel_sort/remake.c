@@ -3,7 +3,7 @@
 
 int d(int number);
 int calcula_h(int number, int t);
-void shellsort(int *vet, int tam );
+void shellsort(int *v, int t );
 void imprime(int *vetor, int t);
 
 int main () {
@@ -36,31 +36,26 @@ int calcula_h (int number, int t ) {
     return number;
 }
 
-void shellsort(int *vetor, int t ) {
-    int i, j, h, menor;
+void shellsort(int *v, int t ) {
+    int i, j, h, aux;
 
     h = 1;
 
     h = calcula_h(h, t);
-    h = d(h);
 
     while ( h > 1 ) {
-        
+        h = d(h);
         for ( i = h; i < t; i++ ) {
-
-            menor = vetor[i];
-
-            for ( j = (i-h); j >= 0; j = j - h ) {
-
-                if ( menor < vetor[j] ) {
-                    vetor[j+h] = vetor[j];
-                    vetor[j] = menor;
-                }
-
+            aux = v[i];
+            j = i-h;
+            while  ( j >= 0 && aux < v[j] ) {
+                v[j+h] = v[j];
+                j = j - h;
             }
+            if ( j != (i-h)) 
+                v[j+h] = aux;
         }
 
-        h = d(h);
     }
 }
 

@@ -16,7 +16,9 @@ int bmh ( char t[N], char p[M] ) {
     for ( j = 1; j < M; j++ ) {
         tabela[p[j-1]] = M-j;
     }
+    
     i = M;
+
     while ( i <= N ) {
         k = i;
         j = M;
