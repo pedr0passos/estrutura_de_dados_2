@@ -154,8 +154,6 @@ void insertion_sort_w (descritor *lista) {
 
 }
 
-
-
 int main() {
     setlocale(LC_ALL, "portuguese");
 
