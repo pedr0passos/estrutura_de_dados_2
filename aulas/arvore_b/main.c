@@ -8,13 +8,13 @@
 typedef struct no {
     int numero_elementos;
     struct no *pagina0;
-    pagina itens[2*ordem+1];
-}no_arvore;
+    informacao chaves[2*ordem+1];
+}pagina;
 
 typedef struct pag {
     int chave;
-    no_arvore *filho;
-} pagina;
+    pagina *filho;
+} informacao;
 
 int main () {
     return false;
@@ -60,12 +60,33 @@ pagina insere( no_arvore *arvore, int valor, int *altura ) {
         } else {
             i--;
             if (i < 2*ordem) {
-                if ( i = -1)
+                if (i = -1)
                     nova_pagina = insere (arvore->pagina0, valor, altura);
                 else 
                     if ( valor > arvore->itens[i].chave )
                         nova_pagina = insere(arvore->itens[i].filho, valor, altura);
+                    else 
+                        *altura = 0;
+                if ( *altura == 1 ) {
+                    for ( j = arvore->itens; j > i+1; j-- )
+                        arvore->itens[j] = arvore->itens[j-1];
+                    arvore->itens[j] = nova_pagina;
+                    if ( arvore->numero_elementos < 2*ordem ) {
+                        *altura = 0;
+                        arvore->numero_elementos++;
+                    } else {                                        // overflow
+                        novo_no = (pagina*)malloc(sizeof(pagina));
+                        novo_no->pagina0 = arvore->itens[ordem].filho;
+                        j = 0;
+                        for ( i = ordem+1; i <= 2*ordem; i++ ) {
+                            novo_no->itens[j] = arvore->itens[i];
+                            j++;
+                        }       
+                        nova_pagina = arvore->itens[ordem];                     
+                    }
+                }
             }
+            
         }
     }
 
