@@ -20,69 +20,80 @@ int main () {
     return false;
 }
 
-void cria_arvore_vazia ( no_arvore *arvore ) {
+void ajusta_numeros ( pagina *arvore, int numero ) {
+    if ( arvore->chaves[numero].filho->numero_elementos < ordem  && arvore->numero_elementos <= 2*ordem  && arvore->numero_elementos > ordem ) {
+        int aux = arvore->chaves[ordem].chave;
+        int i = 0;
+        while ( arvore->chaves[ordem].filho->chaves[i].chave < aux )
+            i++;
+        if ( i == 0 )
+            arvore->chaves[ordem].filho->chaves;
+    }
+}
+
+void cria_arvore_vazia ( pagina *arvore ) {
     arvore = NULL;
 }
 
-int vazia( no_arvore *arvore ) {
+int vazia( pagina *arvore ) {
     return ( arvore == NULL );
 }
 
-void busca_elemento ( no_arvore *arvore, int buscado ) {
+void busca_elemento ( pagina *arvore, int buscado ) {
 
 }
 
-int acha_posicao( no_arvore *arvore, int valor, int posicao ) {
-    while ( posicao < arvore->numero_elementos && valor > arvore->itens[posicao].chave )
+int acha_posicao( pagina *arvore, int valor, int posicao ) {
+    while ( posicao < arvore->numero_elementos && valor > arvore->chaves[posicao].chave )
         posicao++;
     return posicao;
 }
 
-int overflow ( no_arvore *arvore ) {
+int overflow ( pagina *arvore ) {
 
 }
 
-pagina insere( no_arvore *arvore, int valor, int *altura ) {
+informacao insere( pagina *arvore, int valor, int *altura ) {
     int i, j;
-    pagina nova_pagina;
-    no_arvore *novo_no;
+    informacao nova_info;
+    pagina *nova_pagina;
 
     *altura=1;
     if (vazia(arvore)) {
-        nova_pagina.chave = valor;
-        nova_pagina.filho = NULL;
+        nova_info.chave = valor;
+        nova_info.filho = NULL;
     } else {
         i = acha_posicao(arvore, valor, i);
-        if ( arvore->itens[i].chave == valor ) {
+        if ( arvore->chaves[i].chave == valor ) {
             *altura = 0;
-            nova_pagina.chave = valor;
-            nova_pagina.filho = NULL;
+            nova_info.chave = valor;
+            nova_info.filho = NULL;
         } else {
             i--;
             if (i < 2*ordem) {
                 if (i = -1)
-                    nova_pagina = insere (arvore->pagina0, valor, altura);
+                    nova_info = insere(arvore->pagina0, valor, altura);
                 else 
-                    if ( valor > arvore->itens[i].chave )
-                        nova_pagina = insere(arvore->itens[i].filho, valor, altura);
+                    if ( valor > arvore->chaves[i].chave )
+                        nova_info = insere(arvore->chaves[i].filho, valor, altura);
                     else 
                         *altura = 0;
                 if ( *altura == 1 ) {
-                    for ( j = arvore->itens; j > i+1; j-- )
-                        arvore->itens[j] = arvore->itens[j-1];
-                    arvore->itens[j] = nova_pagina;
+                    for ( j = arvore->chaves; j > i+1; j-- )
+                        arvore->chaves[j] = arvore->chaves[j-1];
+                    arvore->chaves[j] = nova_info;
                     if ( arvore->numero_elementos < 2*ordem ) {
                         *altura = 0;
                         arvore->numero_elementos++;
-                    } else {                                        // overflow
-                        novo_no = (pagina*)malloc(sizeof(pagina));
-                        novo_no->pagina0 = arvore->itens[ordem].filho;
+                    } else {    // overflow
+                        nova_pagina = (pagina*)malloc(sizeof(pagina));
+                        nova_pagina->pagina0 = arvore->chaves[ordem].filho;
                         j = 0;
                         for ( i = ordem+1; i <= 2*ordem; i++ ) {
-                            novo_no->itens[j] = arvore->itens[i];
+                            nova_pagina->chaves[j] = arvore->chaves[i];
                             j++;
                         }       
-                        nova_pagina = arvore->itens[ordem];                     
+                        nova_info = arvore->chaves[ordem];                     
                     }
                 }
             }
