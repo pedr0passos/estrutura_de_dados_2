@@ -2,103 +2,164 @@
 #include <stdlib.h>
 
 #define ordem 2
-#define true 1 
-#define false 0 
+#define true 1
+#define false 0
 
-typedef struct no {
-    int numero_elementos;
-    struct no *pagina0;
-    informacao chaves[2*ordem+1];
-}pagina;
+typedef struct _pagina *aponta_pagina;
 
-typedef struct pag {
+typedef struct _dados {
     int chave;
-    pagina *filho;
-} informacao;
+    aponta_pagina filho;
+} dados;
 
-int main () {
-    return false;
-}
+typedef struct _pagina {
+    int numero_elementos;
+    dados informacoes[2*ordem+1];
+    struct _pagina *pagina0;
+} pagina;
 
-void ajusta_numeros ( pagina *arvore, int numero ) {
-    if ( arvore->chaves[numero].filho->numero_elementos < ordem  && arvore->numero_elementos <= 2*ordem  && arvore->numero_elementos > ordem ) {
-        int aux = arvore->chaves[ordem].chave;
-        int i = 0;
-        while ( arvore->chaves[ordem].filho->chaves[i].chave < aux )
-            i++;
-        if ( i == 0 )
-            arvore->chaves[ordem].filho->chaves;
+
+// alguns rabiscos sobre a remocao:
+
+/*
+
+1 caso: se o elemento ESTIVER em uma folha e a folha mantiver 50% de ocupação se removida a chave, basta remove-la
+
+- PARAMETROS:
+int buscado;
+pagina *p;
+
+- PARTE DO CODIGO
+int i = 0;
+    if ( (p->numero_elementos)-1 >= ordem )
+        while ( i < numero_elementos ) {
+            if ( p->informacoes[i].chave == buscado )
+                if ( i == numero_elementos - 1 )
+                    p->numero_elementos--;
+                else 
+                    if ( i < numero_elementos - 1 && i > 0 )
+                        while ( i < numero_elementos ) {
+                            p->informacoes[i] = p->informacoes[i+1];
+                            i++;
+                        }
+            else 
+                i++;
+        }
+
+*/
+
+void ajusta ( pagina *p, int posicao ) {
+    int i, j;
+    pagina *aux;
+    aux = p->informacoes[posicao].filho;
+
+    if ( p->informacoes[posicao-1].filho->numero_elementos > ordem ) {
+        i = aux->numero_elementos-1; 
+        while ( i > 0 ) {
+            aux->informacoes[i] = aux->informacoes[i-1];
+            i--;
+        }  
+        aux->informacoes[i].chave = p->informacoes[posicao].chave;      
+        p->informacoes[posicao].chave = p->informacoes[posicao-1].filho->informacoes[p->informacoes[posicao-1].filho->numero_elementos-1].chave;
+        p->informacoes[posicao].filho->numero_elementos--;
+        aux->numero_elementos++;
     }
 }
 
-void cria_arvore_vazia ( pagina *arvore ) {
-    arvore = NULL;
-}
-
-int vazia( pagina *arvore ) {
-    return ( arvore == NULL );
-}
-
-void busca_elemento ( pagina *arvore, int buscado ) {
-
-}
-
-int acha_posicao( pagina *arvore, int valor, int posicao ) {
-    while ( posicao < arvore->numero_elementos && valor > arvore->chaves[posicao].chave )
-        posicao++;
-    return posicao;
-}
-
-int overflow ( pagina *arvore ) {
-
-}
-
-informacao insere( pagina *arvore, int valor, int *altura ) {
+dados insere ( pagina *p, int chave, int *h ) {
     int i, j;
-    informacao nova_info;
+    dados novo_dado;
     pagina *nova_pagina;
 
-    *altura=1;
-    if (vazia(arvore)) {
-        nova_info.chave = valor;
-        nova_info.filho = NULL;
+    *h = 1;
+    if ( p == NULL ) {
+        novo_dado.chave = chave;
+        novo_dado.filho = NULL;
     } else {
-        i = acha_posicao(arvore, valor, i);
-        if ( arvore->chaves[i].chave == valor ) {
-            *altura = 0;
-            nova_info.chave = valor;
-            nova_info.filho = NULL;
+        i = 0;
+        while ( (i < p->numero_elementos ) && ( chave > p->informacoes[i].chave) )
+            i++;
+        if ( p->informacoes[i].chave == chave ) {
+            *h = 0;
+            novo_dado.chave = chave;
+            novo_dado.filho = NULL;
         } else {
             i--;
-            if (i < 2*ordem) {
-                if (i = -1)
-                    nova_info = insere(arvore->pagina0, valor, altura);
-                else 
-                    if ( valor > arvore->chaves[i].chave )
-                        nova_info = insere(arvore->chaves[i].filho, valor, altura);
+            if ( i <= 2*ordem ) {
+                if ( i == - 1 )
+                    novo_dado = insere(p->pagina0, chave, h);
+                else {
+                    if ( chave > p->informacoes[i].chave )
+                        novo_dado = insere(p->informacoes[i].filho, chave, h);
                     else 
-                        *altura = 0;
-                if ( *altura == 1 ) {
-                    for ( j = arvore->chaves; j > i+1; j-- )
-                        arvore->chaves[j] = arvore->chaves[j-1];
-                    arvore->chaves[j] = nova_info;
-                    if ( arvore->numero_elementos < 2*ordem ) {
-                        *altura = 0;
-                        arvore->numero_elementos++;
-                    } else {    // overflow
-                        nova_pagina = (pagina*)malloc(sizeof(pagina));
-                        nova_pagina->pagina0 = arvore->chaves[ordem].filho;
+                        *h = 0;
+                }
+                if ( *h == 1 ) {    
+                    for ( j = p->numero_elementos; j > i+1; j--)
+                        p->informacoes[j] = p->informacoes[j-1];
+                    p->informacoes[j] = novo_dado;
+                    if ( p->numero_elementos < 2*ordem ) {
+                        *h = 0;
+                        p->numero_elementos++;
+                    } else {    // OVERFLOW
+                        nova_pagina = malloc(sizeof(pagina));
+                        nova_pagina->pagina0 = p->informacoes[ordem].filho;
                         j = 0;
                         for ( i = ordem+1; i <= 2*ordem; i++ ) {
-                            nova_pagina->chaves[j] = arvore->chaves[i];
+                            nova_pagina->informacoes[j] = p->informacoes[i];
                             j++;
-                        }       
-                        nova_info = arvore->chaves[ordem];                     
+                        }
+                        novo_dado = p->informacoes[ordem];
+                        novo_dado.filho = nova_pagina;
+                        p->numero_elementos = ordem;
+                        nova_pagina->numero_elementos = ordem;
+                        *h = 1;
                     }
                 }
             }
-            
         }
     }
+    return novo_dado;
+}
 
+void insere_arvore( pagina **p, int chave ) {
+    pagina *nova_pagina;
+    dados info;
+    int h;
+
+    info = insere( *p, chave, &h );
+    if ( h != 0 ) {
+        nova_pagina = malloc(sizeof(pagina));
+        nova_pagina->pagina0 = *p;
+        nova_pagina->informacoes[0] = info;
+        nova_pagina->numero_elementos = 1;
+        *p = nova_pagina;
+    }
+
+}
+
+void imprimeArvoreB(pagina *A){
+
+  int i;
+
+  if (A!=NULL){
+    imprimeArvoreB(A->pagina0);
+    for(i=0; i<A->numero_elementos;i++){
+      printf("%d  \n",A->informacoes[i].chave);
+      imprimeArvoreB(A->informacoes[i].filho);
+    }
+  }
+}
+
+int main () {
+
+    pagina *arvore = NULL;
+    
+    insere_arvore(&arvore, 7);
+    insere_arvore(&arvore, 17);
+    insere_arvore(&arvore, 70);
+    insere_arvore(&arvore, 13);
+    imprimeArvoreB(arvore);
+
+    return false;
 }
