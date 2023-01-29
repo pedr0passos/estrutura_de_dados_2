@@ -9,6 +9,7 @@ typedef struct _pagina *aponta_pagina;
 
 typedef struct _dados {
     int chave;
+    int id;
     aponta_pagina filho;
 } dados;
 
@@ -47,6 +48,22 @@ int i = 0;
         }
 
 */
+
+int search(pagina *t, int k) {
+    if ( t == NULL )
+        return;
+    else { 
+        search(t->pagina0, k);
+        int i = 0;
+        while ( t->informacoes[i].id != k && i < t->numero_elementos )
+            i++;
+        if ( i != t->numero_elementos )
+            return i;
+        else 
+            return;
+    }
+}
+
 
 void ajusta ( pagina *p, int posicao ) {
     int i, j;
